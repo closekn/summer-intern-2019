@@ -57,8 +57,6 @@ object Facility {
     )(FacilityEdit.apply)(FacilityEdit.unapply)
   )
 
-
-
   val formForFacilitySearch = Form(
     mapping(
       "locationId" -> optional(text),

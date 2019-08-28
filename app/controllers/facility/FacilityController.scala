@@ -89,15 +89,16 @@ class FacilityController @javax.inject.Inject()(
   /**
    * 施設編集
    */
+  // 編集ページ
   def edit(facilityId: Long) = Action.async { implicit request =>
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
-      facility <- facilityDao.get(facilityId)
+      facility    <- facilityDao.get(facilityId)
     } yield {
       val vv = SiteViewValueFacility(
         layout     = ViewValuePageLayout(id = request.uri),
         location   = locSeq,
-        facility = facility
+        facility   = facility
       )
 
       Ok(views.html.site.facility.edit.Main(vv, facilityId ,
@@ -112,10 +113,34 @@ class FacilityController @javax.inject.Inject()(
       ))
     }
   }
-   // Facilityの更新
+  // 更新
   def update(facilityId: Long) = Action { implicit request =>
     val formValues = formForFacility.bindFromRequest.get
     facilityDao.update(facilityId, formValues)
+    Redirect(routes.FacilityController.search)
+  }
+
+  /**
+   * 施設削除
+   */
+  // 確認ページ
+  def deleteCheck(facilityId: Long) = Action.async { implicit request =>
+    for {
+      locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      facility    <- facilityDao.get(facilityId)
+    } yield {
+      val vv = SiteViewValueFacility(
+        layout     = ViewValuePageLayout(id = request.uri),
+        location   = locSeq,
+        facility   = facility
+      )
+
+      Ok(views.html.site.facility.delete.Main(vv, facilityId))
+    }
+  }
+  // 削除
+  def delete(facilityId: Long) = Action { implicit request =>
+    facilityDao.delete(facilityId)
     Redirect(routes.FacilityController.search)
   }
 
