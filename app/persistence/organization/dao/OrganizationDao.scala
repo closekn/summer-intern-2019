@@ -57,7 +57,7 @@ class OrganizationDAO @javax.inject.Inject()(
     }
   
   /**
-   * 施設を更新する
+   * 組織を更新する
    */
   def update (organizationId:Long, formValues: OrganizationEdit) =
     db.run {
@@ -65,6 +65,16 @@ class OrganizationDAO @javax.inject.Inject()(
         .filter(_.id === organizationId)
         .map(p => (p.locationId, p.kanziName, p.furiganaName, p.englishName, p.address, p.description))
         .update((formValues.locationId.get, formValues.kanziName.get, formValues.furiganaName.get, formValues.englishName.get, formValues.address.get, formValues.description.get))
+    }
+
+  /**
+   * 組織を削除する
+   */
+  def delete (organizationId:Long) =
+    db.run {
+      slick
+        .filter(_.id === organizationId)
+        .delete
     }
 
   // --[ テーブル定義 ] --------------------------------------------------------

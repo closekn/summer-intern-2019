@@ -25,7 +25,7 @@ POST /facility/:facilityId/delete      controllers.facility.FacilityController.d
 GET  /facility/insert                  controllers.facility.FacilityController.insertInfo
 POST /facility/insert                  controllers.facility.FacilityController.insert
 
-# --[ 施設ページ ]----------------------------------------------------------------
+# --[ 組織ページ ]----------------------------------------------------------------
 # 一覧
 GET  /organization/list             controllers.organization.OrganizationController.list
 # 検索
@@ -35,6 +35,9 @@ GET  /organization/:organizationId          controllers.organization.Organizatio
 # 編集
 GET  /organization/:organizationId/edit        controllers.organization.OrganizationController.edit(organizationId:Long)
 POST /organization/:organizationId/edit        controllers.organization.OrganizationController.update(organizationId:Long)
+# 削除
+GET  /organization/:organizationId/delete      controllers.organization.OrganizationController.deleteCheck(organizationId:Long)
+POST /organization/:organizationId/delete      controllers.organization.OrganizationController.delete(organizationId:Long)
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view

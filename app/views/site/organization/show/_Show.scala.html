@@ -63,12 +63,10 @@
     @helper.form(action = controllers.organization.routes.OrganizationController.edit(organizationId)) {
       <input type="submit" value="編集">
     }
-  <!--
-  @** 削除 *@
-  @helper.form(action = controllers.organization.routes.OrganizationController.show(organizationId)) {
-    <input type="submit" value="削除">
-  }
-  -->
+    @** 削除 *@
+    @helper.form(action = controllers.organization.routes.OrganizationController.deleteCheck(organizationId)) {
+      <input type="submit" value="削除">
+    }
     @** 一覧 *@
     @helper.form(action = controllers.organization.routes.OrganizationController.search) {
       <input type="submit" value="組織一覧">

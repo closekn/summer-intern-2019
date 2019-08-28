@@ -4,11 +4,11 @@
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
  *@
-@import model.site.facility.SiteViewValueFacility
+@import model.site.organization.SiteViewValueOrganization
 @import play.api.data.Form
 
-@** 施設削除 *@
-@(vv: SiteViewValueFacility, facilityId:Long)(implicit messages: play.api.i18n.Messages)
+@** 組織削除 *@
+@(vv: SiteViewValueOrganization, organizationId:Long)(implicit messages: play.api.i18n.Messages)
 @views.html.common.layout.Default(vv.layout) {
   @views.html.common.layout.ContentLayout(
     id      = "site-facility-list",
@@ -18,5 +18,5 @@
 
 @** テンプレート: コンテンツ *@
 @tplContent = {
-  @views.html.site.facility.delete._Delete(vv, facilityId)
+  @views.html.site.organization.delete._Delete(vv, organizationId)
 }

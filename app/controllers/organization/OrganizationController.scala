@@ -138,4 +138,28 @@ class OrganizationController @javax.inject.Inject()(
     Redirect(routes.OrganizationController.search)
   }
 
+  /**
+   * 組織削除
+   */
+  // 確認ページ
+  def deleteCheck(organizationId: Long) = Action.async { implicit request =>
+    for {
+      locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      organization    <- organizationDao.get(organizationId)
+    } yield {
+      val vv = SiteViewValueOrganization(
+        layout     = ViewValuePageLayout(id = request.uri),
+        location   = locSeq,
+        organization   = organization
+      )
+
+      Ok(views.html.site.organization.delete.Main(vv, organizationId))
+    }
+  }
+  // 削除
+  def delete(organizationId: Long) = Action { implicit request =>
+    organizationDao.delete(organizationId)
+    Redirect(routes.OrganizationController.search)
+  }
+
 }
