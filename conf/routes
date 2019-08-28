@@ -13,15 +13,17 @@ POST  /app/new-user                     controllers.app.NewUserCommitController.
 GET  /facility/list                    controllers.facility.FacilityController.list
 # 検索
 GET  /facility/search                  controllers.facility.FacilityController.search
+# 施設情報
+GET  /facility/:facilityId             controllers.facility.FacilityController.show(facilityId:Long)
 # 編集
-GET  /facility/:facilityId/edit                controllers.facility.FacilityController.edit(facilityId:Long)
-POST /facility/:facilityId/edit               controllers.facility.FacilityController.update(facilityId:Long)
+GET  /facility/:facilityId/edit        controllers.facility.FacilityController.edit(facilityId:Long)
+POST /facility/:facilityId/edit        controllers.facility.FacilityController.update(facilityId:Long)
 # 削除
-GET  /facility/:facilityId/delete       controllers.facility.FacilityController.deleteCheck(facilityId:Long)
-POST /facility/:facilityId/delete       controllers.facility.FacilityController.delete(facilityId:Long)
+GET  /facility/:facilityId/delete      controllers.facility.FacilityController.deleteCheck(facilityId:Long)
+POST /facility/:facilityId/delete      controllers.facility.FacilityController.delete(facilityId:Long)
 # 追加
-GET  /facility/insert                    controllers.facility.FacilityController.insertInfo
-POST /facility/insert                    controllers.facility.FacilityController.insert
+GET  /facility/insert                  controllers.facility.FacilityController.insertInfo
+POST /facility/insert                  controllers.facility.FacilityController.insert
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view

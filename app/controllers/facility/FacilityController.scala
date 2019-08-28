@@ -87,6 +87,24 @@ class FacilityController @javax.inject.Inject()(
   }
 
   /**
+   * 施設情報
+   */
+  def show(facilityId: Long) = Action.async { implicit request =>
+    for {
+      locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      facility    <- facilityDao.get(facilityId)
+    } yield {
+      val vv = SiteViewValueFacility(
+        layout     = ViewValuePageLayout(id = request.uri),
+        location   = locSeq,
+        facility   = facility
+      )
+
+      Ok(views.html.site.facility.show.Main(vv, facilityId))
+    }
+  }
+
+  /**
    * 施設編集
    */
   // 編集ページ
