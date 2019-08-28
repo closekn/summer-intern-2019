@@ -5,26 +5,33 @@
  * please view the LICENSE file that was distributed with this source code.
  *@
 @import views.html.helper
-@import model.site.facility.SiteViewValueFacility
+@import model.site.organization.SiteViewValueOrganization
 @import play.api.data.Form
+@import controllers.organization.OrganizationController
 
-@import persistence.facility.model.FacilityEdit
-@(vv: SiteViewValueFacility, facilityId:Long)(implicit messages: play.api.i18n.Messages)
+@import persistence.organization.model.OrganizationEdit
+@(vv: SiteViewValueOrganization, organizationId:Long)(implicit messages: play.api.i18n.Messages)
 
-@** 施設検索一覧 *@
+@** 組織情報 *@
 @views.html.common.layout.InnerContent("site-app-new-user-form", "content") {
   @** --[ 見出し ]---------------------------------------------------------- *@
   <h3 class="content__section header">
-    <span class="header__title">施設情報</span>
+    <span class="header__title">組織情報</span>
   </h3>
 
-  @** --[ 施設情報 ]-------------------------------------------------------- *@
+  @** --[ 組織情報 ]-------------------------------------------------------- *@
   <div class="content__section content">
     <article class="facility-list-item">
       <div class="item-panel__wrapper">
         <header class="facility-item__header">
           <div class="name">
-            @vv.facility.get.name
+            @vv.organization.get.kanziName
+          </div>
+          <div class="name">
+            @vv.organization.get.furiganaName
+          </div>
+          <div class="name">
+            @vv.organization.get.englishName
           </div>
         </header>
         <section class="facility-item__content">
@@ -33,13 +40,13 @@
               <div class="address">
                 <label class="inline">住所:</label>
                 <p class="inline">
-                  @vv.facility.get.address
+                  @vv.organization.get.address
                 </p>
               </div>
               <div class="description">
                 <label class="inline">備考:</label>
                 <p class="inline">
-                  @vv.facility.get.description
+                  @vv.organization.get.description
                 </p>
               </div>
             </div>
@@ -52,17 +59,19 @@
   @** --[ 遷移フォーム ]---------------------------------------------------------- *@  
   <div class="content__section form">
   
+  <!--
   @** 編集 *@
-  @helper.form(action = controllers.facility.routes.FacilityController.edit(facilityId)) {
+  @helper.form(action = controllers.organization.routes.OrganizationController.show(organizationId)) {
     <input type="submit" value="編集">
   }
   @** 削除 *@
-  @helper.form(action = controllers.facility.routes.FacilityController.deleteCheck(facilityId)) {
+  @helper.form(action = controllers.organization.routes.OrganizationController.show(organizationId)) {
     <input type="submit" value="削除">
   }
+  -->
   @** 一覧 *@
-  @helper.form(action = controllers.facility.routes.FacilityController.search) {
-    <input type="submit" value="施設一覧">
+  @helper.form(action = controllers.organization.routes.OrganizationController.search) {
+    <input type="submit" value="組織一覧">
   }
 </div>
 

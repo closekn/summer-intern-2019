@@ -30,6 +30,8 @@ POST /facility/insert                  controllers.facility.FacilityController.i
 GET  /organization/list             controllers.organization.OrganizationController.list
 # 検索
 GET  /organization/search         controllers.organization.OrganizationController.search
+# 施設情報
+GET  /organization/:organizationId          controllers.organization.OrganizationController.show(organizationId:Long)
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view

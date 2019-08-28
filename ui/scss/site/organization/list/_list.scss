@@ -1,0 +1,62 @@
+//------------------------------------------------------------------------------
+// This file is part of the Nextbeat services.
+//
+// For the full copyright and license information,
+// please view the LICENSE file that was distributed with this source code.
+//------------------------------------------------------------------------------
+
+#site-organization-list {
+  //-- [ レイアウト ] ----------------------------------------------------------
+  .content__section {
+    .inline {
+      display: inline-block;
+    }
+
+    &.form {
+      margin: 10px auto;
+
+      .button {
+        margin-left: 15px;
+        font-weight: bold;
+        width: 80px;
+        height: 30px;
+      }
+    }
+
+    &.content {
+      width: 1024px;
+      margin: auto;
+
+      //-- [ 要素定義 ] ------------------------------------------------------------
+      //- 組織
+      article {
+        margin:        0 auto;
+        margin-bottom: 16px;
+        cursor:        pointer;
+        background:    #fff;
+        border-radius: 4px;
+        box-shadow:    0 1px 2px 0 hsla(0,0%,78%,.5);
+        position:      relative;
+        width:         650px;
+
+        .item-panel__wrapper {
+          padding: 16px;
+          width:   100%;
+
+          .organization-item__header {
+            font-weight: bold;
+            font-size:   $font-size-medium;
+          }
+
+          .organization__content {
+            margin-top: 10px;
+            label {
+              font-weight:  bold;
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

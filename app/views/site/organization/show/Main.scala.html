@@ -4,19 +4,19 @@
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
  *@
-@import model.site.facility.SiteViewValueFacility
+@import model.site.organization.SiteViewValueOrganization
 @import play.api.data.Form
 
-@** 施設情報 *@
-@(vv: SiteViewValueFacility, facilityId:Long)(implicit messages: play.api.i18n.Messages)
+@** 組織情報 *@
+@(vv: SiteViewValueOrganization, organizationId:Long)(implicit messages: play.api.i18n.Messages)
 @views.html.common.layout.Default(vv.layout) {
   @views.html.common.layout.ContentLayout(
-    id      = "site-facility-list",
+    id      = "site-organization-list",
     content = tplContent
   )
 }
 
 @** テンプレート: コンテンツ *@
 @tplContent = {
-  @views.html.site.facility.show._Show(vv, facilityId)
+  @views.html.site.organization.show._Show(vv, organizationId)
 }

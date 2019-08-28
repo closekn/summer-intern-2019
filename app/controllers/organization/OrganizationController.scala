@@ -84,4 +84,22 @@ class OrganizationController @javax.inject.Inject()(
     )
   }
 
+  /**
+   * 組織情報
+   */
+  def show(organizationId: Long) = Action.async { implicit request =>
+    for {
+      locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      organization    <- organizationDao.get(organizationId)
+    } yield {
+      val vv = SiteViewValueOrganization(
+        layout     = ViewValuePageLayout(id = request.uri),
+        location   = locSeq,
+        organization   = organization
+      )
+
+      Ok(views.html.site.organization.show.Main(vv, organizationId))
+    }
+  }
+
 }
