@@ -7,6 +7,7 @@
 @import views.html.helper
 @import model.site.facility.SiteViewValueFacilityList
 @import play.api.data.Form
+@import controllers.facility.FacilityController
 
 @import persistence.facility.model.FacilitySearch
 @(vv: SiteViewValueFacilityList, form: Form[FacilitySearch])(implicit messages: play.api.i18n.Messages)
@@ -45,12 +46,12 @@
   @** --[ 一覧 ]-------------------------------------------------------- *@
   <div class="content__section content">
     @for(facility <- vv.facilities) {
-      <article class="facility-list-item">
-        <a href="#">
+      <a href= "@controllers.facility.routes.FacilityController.show(facility.id.get)">
+        <article class="facility-list-item">
           <div class="item-panel__wrapper">
             <header class="facility-item__header">
               <div class="name">
-                @facility.name
+                    @facility.name
               </div>
             </header>
             <section class="facility-item__content">
@@ -72,8 +73,8 @@
               </div>
             </section>
           </div>
-        </a>
-      </article>
+        </article>
+      </a>
     }
   </div>
 }
