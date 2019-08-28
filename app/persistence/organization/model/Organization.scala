@@ -36,7 +36,7 @@ case class OrganizationSearch(
 case class OrganizationEdit (
   locationId:       Option[Location.Id],
   kanziName:        Option[String],
-  phoneticName:     Option[String],
+  furiganaName:     Option[String],
   englishName:      Option[String],
   address:          Option[String],
   description:      Option[String]
@@ -53,7 +53,7 @@ object Organization {
     mapping(
       "locationId" -> optional(text),
       "kanziName" -> optional(text),
-      "phoneticName" -> optional(text),
+      "furiganaName" -> optional(text),
       "englishName" -> optional(text),
       "address" -> optional(text),
       "description" -> optional(text)

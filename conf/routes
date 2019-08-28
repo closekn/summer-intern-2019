@@ -32,6 +32,9 @@ GET  /organization/list             controllers.organization.OrganizationControl
 GET  /organization/search         controllers.organization.OrganizationController.search
 # 施設情報
 GET  /organization/:organizationId          controllers.organization.OrganizationController.show(organizationId:Long)
+# 編集
+GET  /organization/:organizationId/edit        controllers.organization.OrganizationController.edit(organizationId:Long)
+POST /organization/:organizationId/edit        controllers.organization.OrganizationController.update(organizationId:Long)
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view

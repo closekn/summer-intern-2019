@@ -59,20 +59,20 @@
   @** --[ 遷移フォーム ]---------------------------------------------------------- *@  
   <div class="content__section form">
   
+    @** 編集 *@
+    @helper.form(action = controllers.organization.routes.OrganizationController.edit(organizationId)) {
+      <input type="submit" value="編集">
+    }
   <!--
-  @** 編集 *@
-  @helper.form(action = controllers.organization.routes.OrganizationController.show(organizationId)) {
-    <input type="submit" value="編集">
-  }
   @** 削除 *@
   @helper.form(action = controllers.organization.routes.OrganizationController.show(organizationId)) {
     <input type="submit" value="削除">
   }
   -->
-  @** 一覧 *@
-  @helper.form(action = controllers.organization.routes.OrganizationController.search) {
-    <input type="submit" value="組織一覧">
-  }
-</div>
+    @** 一覧 *@
+    @helper.form(action = controllers.organization.routes.OrganizationController.search) {
+      <input type="submit" value="組織一覧">
+    }
+  </div>
 
 }

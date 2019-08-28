@@ -55,6 +55,17 @@ class OrganizationDAO @javax.inject.Inject()(
         .filter(_.locationId inSet locationIds)
         .result
     }
+  
+  /**
+   * 施設を更新する
+   */
+  def update (organizationId:Long, formValues: OrganizationEdit) =
+    db.run {
+      slick
+        .filter(_.id === organizationId)
+        .map(p => (p.locationId, p.kanziName, p.furiganaName, p.englishName, p.address, p.description))
+        .update((formValues.locationId.get, formValues.kanziName.get, formValues.furiganaName.get, formValues.englishName.get, formValues.address.get, formValues.description.get))
+    }
 
   // --[ テーブル定義 ] --------------------------------------------------------
   class OrganizationTable(tag: Tag) extends Table[Organization](tag, "organization") {

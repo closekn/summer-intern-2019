@@ -102,4 +102,40 @@ class OrganizationController @javax.inject.Inject()(
     }
   }
 
+  /**
+   * 組織編集
+   */
+  // 編集ページ
+  def edit(organizationId: Long) = Action.async { implicit request =>
+    for {
+      locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      organization    <- organizationDao.get(organizationId)
+    } yield {
+      val vv = SiteViewValueOrganization(
+        layout     = ViewValuePageLayout(id = request.uri),
+        location   = locSeq,
+        organization   = organization
+      )
+
+      Ok(views.html.site.organization.edit.Main(vv, organizationId ,
+        formForOrganization.fill(
+          OrganizationEdit(
+            Option(organization.get.locationId),
+            Option(organization.get.kanziName),
+            Option(organization.get.furiganaName),
+            Option(organization.get.englishName),
+            Option(organization.get.address),
+            Option(organization.get.description)
+          )
+        )
+      ))
+    }
+  }
+  // 更新
+  def update(organizationId: Long) = Action { implicit request =>
+    val formValues = formForOrganization.bindFromRequest.get
+    organizationDao.update(organizationId, formValues)
+    Redirect(routes.OrganizationController.search)
+  }
+
 }
