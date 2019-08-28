@@ -77,6 +77,16 @@ class OrganizationDAO @javax.inject.Inject()(
         .delete
     }
 
+  /**
+   * 組織を追加する
+   */
+  def insert(recvInfo: OrganizationEdit) = {
+    val insertData: Organization = Organization(None, recvInfo.locationId.get, recvInfo.kanziName.get, recvInfo.furiganaName.get, recvInfo.englishName.get, recvInfo.address.get, recvInfo.description.get)
+    db.run {
+      slick returning slick.map(_.id) += insertData
+    }
+  }
+
   // --[ テーブル定義 ] --------------------------------------------------------
   class OrganizationTable(tag: Tag) extends Table[Organization](tag, "organization") {
 

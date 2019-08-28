@@ -162,4 +162,38 @@ class OrganizationController @javax.inject.Inject()(
     Redirect(routes.OrganizationController.search)
   }
 
+  /**
+   * 組織追加
+   */
+  // 情報入力ページ
+  def insertInfo = Action.async { implicit request =>
+    for {
+      locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      organization <- scala.concurrent.Future(None)
+    } yield {
+      val vv = SiteViewValueOrganization(
+        layout = ViewValuePageLayout(id = request.uri),
+        location = locSeq,
+        organization = organization,
+      )
+      Ok(views.html.site.organization.insert.Main(vv, formForOrganization))
+    }
+  }
+  // 追加
+  def insert() = Action { implicit request =>
+    formForOrganization.bindFromRequest.fold(
+      errors => {
+        for {
+          locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+        } yield {
+          Redirect(routes.OrganizationController.search)
+        }
+      },
+      organization   => {
+        organizationDao.insert(organization)
+      }
+    )
+    Redirect(routes.OrganizationController.search)
+  }
+
 }

@@ -13,6 +13,9 @@ POST  /app/new-user                     controllers.app.NewUserCommitController.
 GET  /facility/list                    controllers.facility.FacilityController.list
 # 検索
 GET  /facility/search                  controllers.facility.FacilityController.search
+# 追加
+GET  /facility/insert                  controllers.facility.FacilityController.insertInfo
+POST /facility/insert                  controllers.facility.FacilityController.insert
 # 施設情報
 GET  /facility/:facilityId             controllers.facility.FacilityController.show(facilityId:Long)
 # 編集
@@ -21,23 +24,23 @@ POST /facility/:facilityId/edit        controllers.facility.FacilityController.u
 # 削除
 GET  /facility/:facilityId/delete      controllers.facility.FacilityController.deleteCheck(facilityId:Long)
 POST /facility/:facilityId/delete      controllers.facility.FacilityController.delete(facilityId:Long)
-# 追加
-GET  /facility/insert                  controllers.facility.FacilityController.insertInfo
-POST /facility/insert                  controllers.facility.FacilityController.insert
 
 # --[ 組織ページ ]----------------------------------------------------------------
 # 一覧
-GET  /organization/list             controllers.organization.OrganizationController.list
+GET  /organization/list                     controllers.organization.OrganizationController.list
 # 検索
-GET  /organization/search         controllers.organization.OrganizationController.search
+GET  /organization/search                   controllers.organization.OrganizationController.search
+# 追加
+GET  /organization/insert                   controllers.organization.OrganizationController.insertInfo
+POST /organization/insert                   controllers.organization.OrganizationController.insert
 # 施設情報
 GET  /organization/:organizationId          controllers.organization.OrganizationController.show(organizationId:Long)
 # 編集
-GET  /organization/:organizationId/edit        controllers.organization.OrganizationController.edit(organizationId:Long)
-POST /organization/:organizationId/edit        controllers.organization.OrganizationController.update(organizationId:Long)
+GET  /organization/:organizationId/edit     controllers.organization.OrganizationController.edit(organizationId:Long)
+POST /organization/:organizationId/edit     controllers.organization.OrganizationController.update(organizationId:Long)
 # 削除
-GET  /organization/:organizationId/delete      controllers.organization.OrganizationController.deleteCheck(organizationId:Long)
-POST /organization/:organizationId/delete      controllers.organization.OrganizationController.delete(organizationId:Long)
+GET  /organization/:organizationId/delete   controllers.organization.OrganizationController.deleteCheck(organizationId:Long)
+POST /organization/:organizationId/delete   controllers.organization.OrganizationController.delete(organizationId:Long)
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view

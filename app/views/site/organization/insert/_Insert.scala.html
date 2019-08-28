@@ -5,22 +5,22 @@
  * please view the LICENSE file that was distributed with this source code.
  *@
 @import views.html.helper
-@import model.site.facility.SiteViewValueFacility
+@import model.site.organization.SiteViewValueOrganization
 @import play.api.data.Form
 
-@import persistence.facility.model.FacilityEdit
-@(vv: SiteViewValueFacility, form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
+@import persistence.organization.model.OrganizationEdit
+@(vv: SiteViewValueOrganization, form: Form[OrganizationEdit])(implicit messages: play.api.i18n.Messages)
 
-@** 施設追加 *@
+@** 組織追加 *@
 @views.html.common.layout.InnerContent("site-app-new-user-form", "content") {
   @** --[ 見出し ]---------------------------------------------------------- *@
   <h3 class="content__section header">
-    <span class="header__title">施設追加</span>
+    <span class="header__title">組織追加</span>
   </h3>
 
   @** --[ 編集フォーム ]---------------------------------------------------------- *@  
   <div class="content__section form">
-  @helper.form(action = controllers.facility.routes.FacilityController.insert) {
+  @helper.form(action = controllers.organization.routes.OrganizationController.insert) {
       
     @** 都道府県 *@
     <div class="form__section pref inline">
@@ -32,8 +32,10 @@
           '_showConstraints -> false,
       )
     </div>
-    @** 施設名 *@
-    @helper.inputText(form("name"), '_label -> "名前")
+    @** 組織名 *@
+    @helper.inputText(form("kanziName"), '_label -> "名前[漢字]")
+    @helper.inputText(form("furiganaName"), '_label -> "名前[ふりがな]")
+    @helper.inputText(form("englishName"), '_label -> "名前[英語]")
     @** 住所 *@
     @helper.inputText(form("address"), '_label -> "住所")
     @** 備考 *@
@@ -47,7 +49,7 @@
 
   @** キャンセルボタン *@
   <div class="content__section form">
-  @helper.form(action = controllers.facility.routes.FacilityController.search) {
+  @helper.form(action = controllers.organization.routes.OrganizationController.search) {
     <input type="submit" value="キャンセル">
   }
   </div>
