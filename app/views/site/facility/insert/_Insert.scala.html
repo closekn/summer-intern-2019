@@ -9,18 +9,18 @@
 @import play.api.data.Form
 
 @import persistence.facility.model.FacilityEdit
-@(vv: SiteViewValueFacility, facilityId:Long, form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
+@(vv: SiteViewValueFacility, form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
 
 @** 施設検索一覧 *@
 @views.html.common.layout.InnerContent("site-app-new-user-form", "content") {
   @** --[ 見出し ]---------------------------------------------------------- *@
   <h3 class="content__section header">
-    <span class="header__title">施設編集</span>
+    <span class="header__title">施設追加</span>
   </h3>
 
   @** --[ 編集フォーム ]---------------------------------------------------------- *@  
   <div class="content__section form">
-  @helper.form(action = controllers.facility.routes.FacilityController.update(facilityId)) {
+  @helper.form(action = controllers.facility.routes.FacilityController.insert) {
       
     @** 都道府県 *@
     <div class="form__section pref inline">
@@ -40,7 +40,7 @@
     @helper.inputText(form("description"), '_label -> "備考")
 
     @** 更新ボタン *@
-    <input type="submit" value="更新">
+    <input type="submit" value="追加">
   }
 
   </div>

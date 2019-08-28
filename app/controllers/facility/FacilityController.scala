@@ -144,4 +144,38 @@ class FacilityController @javax.inject.Inject()(
     Redirect(routes.FacilityController.search)
   }
 
+  /**
+   * 施設追加
+   */
+  // 情報入力ページ
+  def insertInfo = Action.async { implicit request =>
+    for {
+      locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      facility <- scala.concurrent.Future(None)
+    } yield {
+      val vv = SiteViewValueFacility(
+        layout = ViewValuePageLayout(id = request.uri),
+        location = locSeq,
+        facility = facility,
+      )
+      Ok(views.html.site.facility.insert.Main(vv, formForFacility))
+    }
+  }
+  // 追加
+  def insert() = Action { implicit request =>
+    formForFacility.bindFromRequest.fold(
+      errors => {
+        for {
+          locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+        } yield {
+          Redirect(routes.FacilityController.search)
+        }
+      },
+      facility   => {
+        facilityDao.insert(facility)
+      }
+    )
+    Redirect(routes.FacilityController.search)
+  }
+
 }

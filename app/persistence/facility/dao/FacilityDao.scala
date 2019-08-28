@@ -76,6 +76,16 @@ class FacilityDAO @javax.inject.Inject()(
         .filter(_.id === facilityId)
         .delete
     }
+  
+  /**
+   * 施設を追加する
+   */
+  def insert(recvInfo: FacilityEdit) = {
+    val insertData: Facility = Facility(None, recvInfo.locationId.get, recvInfo.name.get, recvInfo.address.get, recvInfo.description.get)
+    db.run {
+      slick returning slick.map(_.id) += insertData
+    }
+  }
 
   // --[ テーブル定義 ] --------------------------------------------------------
   class FacilityTable(tag: Tag) extends Table[Facility](tag, "facility") {
