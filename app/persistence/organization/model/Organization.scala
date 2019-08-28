@@ -22,6 +22,7 @@ case class Organization (
   furiganaName:     String,                             // 名前(ふりがな)
   englishName:      String,                             // 名前(英語名)
   address:          String,                             // 住所(詳細)
+  description:      String,                             // 備考
   updatedAt:        LocalDateTime = LocalDateTime.now,  // データ更新日
   createdAt:        LocalDateTime = LocalDateTime.now   // データ作成日
 )
@@ -34,10 +35,11 @@ case class OrganizationSearch(
 // 組織編集
 case class OrganizationEdit (
   locationId:       Option[Location.Id],
-  chineseName:      Option[String],
+  kanziName:        Option[String],
   phoneticName:     Option[String],
   englishName:      Option[String],
-  address:          Option[String]
+  address:          Option[String],
+  description:      Option[String]
 )
 
 // コンパニオンオブジェクト
@@ -50,10 +52,11 @@ object Organization {
   val formForOrganization = Form (
     mapping(
       "locationId" -> optional(text),
-      "chineseName" -> optional(text),
+      "kanziName" -> optional(text),
       "phoneticName" -> optional(text),
       "englishName" -> optional(text),
-      "address" -> optional(text)
+      "address" -> optional(text),
+      "description" -> optional(text)
     )(OrganizationEdit.apply)(OrganizationEdit.unapply)
   )
 
