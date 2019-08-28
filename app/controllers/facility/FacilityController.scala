@@ -31,7 +31,7 @@ class FacilityController @javax.inject.Inject()(
   /**
     * 施設一覧ページ
     */
-  def list = (Action andThen AuthenticationAction()).async { implicit request =>
+  def list = Action.async { implicit request =>
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       facilitySeq <- facilityDao.findAll
