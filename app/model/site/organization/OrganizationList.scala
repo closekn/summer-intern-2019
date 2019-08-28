@@ -5,17 +5,16 @@
  * please view the LICENSE file that was distributed with this source code.
  */
 
-package model.site.facility
+package model.site.organization
 
 import model.component.util.ViewValuePageLayout
 import persistence.geo.model.Location
-import persistence.facility.model.Facility
+import persistence.organization.model.Organization
 
-// 表示: 施設一覧
-//~~~~~~~~~~~~~~~~~~~~~
-case class SiteViewValueFacilityList
+// 表示: 組織一覧
+case class SiteViewValueOrganizationList
 (
-  layout:   ViewValuePageLayout,
-  location: Seq[Location],
-  facilities: Seq[Facility]
+  layout:      ViewValuePageLayout,
+  location:    Seq[Location],
+  organizations: Seq[Organization],
 )

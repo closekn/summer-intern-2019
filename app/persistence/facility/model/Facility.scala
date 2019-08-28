@@ -32,6 +32,7 @@ case class FacilitySearch(
   locationIdOpt: Option[Location.Id]
 )
 
+// 施設編集
 case class FacilityEdit(
   locationId: Option[Location.Id],
   name: Option[String],
