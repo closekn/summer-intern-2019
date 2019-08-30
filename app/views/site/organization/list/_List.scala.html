@@ -10,7 +10,19 @@
 @import controllers.organization.OrganizationController
 
 @import persistence.organization.model.OrganizationSearch
-@(vv: SiteViewValueOrganizationList, form: Form[OrganizationSearch])(implicit messages: play.api.i18n.Messages)
+@(vv: SiteViewValueOrganizationList, form: Form[OrganizationSearch], page: Int, pageSize: Int)(implicit messages: play.api.i18n.Messages)
+
+@** ページング前処理 *@
+@bound = @{5}
+@minPage() = @{
+  ((page.toDouble / bound).floor * bound).toInt
+}
+@maxPage() = @{
+  if ((minPage() + bound) * pageSize >= vv.organizations.size)
+    vv.organizations.size / pageSize + 1
+  else
+    minPage() + bound
+}
 
 @** 組織検索一覧 *@
 @views.html.common.layout.InnerContent("site-app-new-user-form", "content") {
@@ -21,7 +33,7 @@
 
   @** --[ 検索フォーム ]---------------------------------------------------------- *@
   <div class="content__section form">
-    @helper.form(action = controllers.organization.routes.OrganizationController.search) {
+    @helper.form(action = controllers.organization.routes.OrganizationController.search(1)) {
 
       @** 都道府県 *@
       <div class="form__section pref inline">
@@ -93,5 +105,17 @@
         </article>
       </a>
     }
+  </div>
+
+  @** --[ ページング ]-------------------------------------------------------- *@
+  <div class="pagination">
+    <ul>
+      @if(page > 1){
+        <li><a href="@controllers.organization.routes.OrganizationController.search(page-1)">前ページ</a></li>
+      }
+      @if(page < maxPage()) {
+        <li><a href="@controllers.organization.routes.OrganizationController.search(page+1)">次ページ</a></li>
+      }
+    </ul>
   </div>
 }

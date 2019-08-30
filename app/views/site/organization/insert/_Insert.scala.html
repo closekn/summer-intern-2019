@@ -49,7 +49,7 @@
 
   @** キャンセルボタン *@
   <div class="content__section form">
-  @helper.form(action = controllers.organization.routes.OrganizationController.search) {
+  @helper.form(action = controllers.organization.routes.OrganizationController.search(1)) {
     <input type="submit" value="キャンセル">
   }
   </div>

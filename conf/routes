@@ -10,7 +10,7 @@ POST  /app/new-user                     controllers.app.NewUserCommitController.
 
 # --[ 施設ページ ]----------------------------------------------------------------
 # 一覧
-GET  /facility/list                    controllers.facility.FacilityController.list
+# GET  /facility/list                    controllers.facility.FacilityController.list
 # 検索
 GET  /facility/search                  controllers.facility.FacilityController.search
 # 追加
@@ -27,9 +27,10 @@ POST /facility/:facilityId/delete      controllers.facility.FacilityController.d
 
 # --[ 組織ページ ]----------------------------------------------------------------
 # 一覧
-GET  /organization/list                     controllers.organization.OrganizationController.list
+# GET  /organization/list                     controllers.organization.OrganizationController.list
 # 検索
-GET  /organization/search                   controllers.organization.OrganizationController.search
+GET  /organization/search                   controllers.organization.OrganizationController.search(page:Int = 1)
+GET  /organization/search/:page             controllers.organization.OrganizationController.search(page:Int)
 # 追加
 GET  /organization/insert                   controllers.organization.OrganizationController.insertInfo
 POST /organization/insert                   controllers.organization.OrganizationController.insert

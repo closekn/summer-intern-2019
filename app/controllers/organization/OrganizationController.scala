@@ -31,11 +31,12 @@ class OrganizationController @javax.inject.Inject()(
   cc: MessagesControllerComponents
 ) extends AbstractController(cc) with I18nSupport {
   implicit lazy val executionContext = defaultExecutionContext
+  val pageSize = 10
 
   /**
     * 組織一覧ページ
     */
-  def list = Action.async { implicit request =>
+  /*def list = Action.async { implicit request =>
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       organizationSeq <- organizationDao.findAll
@@ -49,12 +50,12 @@ class OrganizationController @javax.inject.Inject()(
       )
       Ok(views.html.site.organization.list.Main(vv, formForOrganizationSearch))
     }
-  }
+  }*/
 
   /**
    * 組織検索
    */
-  def search = Action.async { implicit request =>
+  def search(page: Int) = Action.async { implicit request =>
     formForOrganizationSearch.bindFromRequest.fold(
       errors => {
        for {
@@ -68,7 +69,7 @@ class OrganizationController @javax.inject.Inject()(
             organizations = organizationSeq,
             relations = relationSeq
           )
-          BadRequest(views.html.site.organization.list.Main(vv, errors))
+          BadRequest(views.html.site.organization.list.Main(vv, errors, page, pageSize))
         }
       },
       form   => {
@@ -90,7 +91,7 @@ class OrganizationController @javax.inject.Inject()(
             organizations = organizationSeq,
             relations = relationSeq
           )
-          Ok(views.html.site.organization.list.Main(vv, formForOrganizationSearch.fill(form)))
+          Ok(views.html.site.organization.list.Main(vv, formForOrganizationSearch.fill(form), page, pageSize))
         }
       }
     )
@@ -151,7 +152,7 @@ class OrganizationController @javax.inject.Inject()(
   def update(organizationId: Long) = Action { implicit request =>
     val formValues = formForOrganization.bindFromRequest.get
     organizationDao.update(organizationId, formValues)
-    Redirect(routes.OrganizationController.search)
+    Redirect(routes.OrganizationController.search(1))
   }
 
   /**
@@ -177,7 +178,7 @@ class OrganizationController @javax.inject.Inject()(
   // 削除
   def delete(organizationId: Long) = Action { implicit request =>
     organizationDao.delete(organizationId)
-    Redirect(routes.OrganizationController.search)
+    Redirect(routes.OrganizationController.search(1))
   }
 
   /**
@@ -206,14 +207,14 @@ class OrganizationController @javax.inject.Inject()(
         for {
           locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
         } yield {
-          Redirect(routes.OrganizationController.search)
+          Redirect(routes.OrganizationController.search(1))
         }
       },
       organization   => {
         organizationDao.insert(organization)
       }
     )
-    Redirect(routes.OrganizationController.search)
+    Redirect(routes.OrganizationController.search(1))
   }
 
 }
