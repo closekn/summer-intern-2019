@@ -56,6 +56,40 @@
     </article>
   </div>
 
+  @** --[ 見出し ]---------------------------------------------------------- *@
+  <h4 class="content__section header">
+      <span class="header__title">所属施設一覧</span>
+  </h4>
+
+  @** --[ 紐付け情報 ]-------------------------------------------------------- *@
+  <div class="content__section content">
+    @for(facility <- vv.facilities) {
+      <article class="facility-list-item">
+        <a href="@controllers.facility.routes.FacilityController.show(facility.id.get)">
+          <div class="item-panel__wrapper">
+            <header class="facility-item__header">
+              <div class="name">
+                @facility.name
+              </div>
+            </header>
+            <section class="facility-item__content">
+              <div>
+                <div class="item-panel__content">
+                  <div class="address">
+                    <label class="inline">住所:</label>
+                    <p class="inline">
+                      @facility.address
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </a>
+      </article>
+    }
+  </div>
+
   @** --[ 遷移フォーム ]---------------------------------------------------------- *@  
   <div class="content__section form">
   
