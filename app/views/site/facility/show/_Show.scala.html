@@ -61,7 +61,7 @@
     <input type="submit" value="削除">
   }
   @** 一覧 *@
-  @helper.form(action = controllers.facility.routes.FacilityController.search) {
+  @helper.form(action = controllers.facility.routes.FacilityController.search(1)) {
     <input type="submit" value="施設一覧">
   }
 </div>

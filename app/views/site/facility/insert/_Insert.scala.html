@@ -47,7 +47,7 @@
 
   @** キャンセルボタン *@
   <div class="content__section form">
-  @helper.form(action = controllers.facility.routes.FacilityController.search) {
+  @helper.form(action = controllers.facility.routes.FacilityController.search(1)) {
     <input type="submit" value="キャンセル">
   }
   </div>

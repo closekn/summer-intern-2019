@@ -27,11 +27,12 @@ class FacilityController @javax.inject.Inject()(
   cc: MessagesControllerComponents
 ) extends AbstractController(cc) with I18nSupport {
   implicit lazy val executionContext = defaultExecutionContext
+  val pageSize = 10
 
   /**
     * 施設一覧ページ
     */
-  def list = Action.async { implicit request =>
+  /*def list = Action.async { implicit request =>
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       facilitySeq <- facilityDao.findAll
@@ -43,12 +44,12 @@ class FacilityController @javax.inject.Inject()(
       )
       Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))
     }
-  }
+  }*/
 
   /**
    * 施設検索
    */
-  def search = Action.async { implicit request =>
+  def search(page: Int) = Action.async { implicit request =>
     formForFacilitySearch.bindFromRequest.fold(
       errors => {
        for {
@@ -60,7 +61,7 @@ class FacilityController @javax.inject.Inject()(
             location   = locSeq,
             facilities = facilitySeq
           )
-          BadRequest(views.html.site.facility.list.Main(vv, errors))
+          BadRequest(views.html.site.facility.list.Main(vv, errors, page, pageSize))
         }
       },
       form   => {
@@ -80,7 +81,7 @@ class FacilityController @javax.inject.Inject()(
             location   = locSeq,
             facilities = facilitySeq
           )
-          Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch.fill(form)))
+          Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch.fill(form), page, pageSize))
         }
       }
     )
@@ -135,7 +136,7 @@ class FacilityController @javax.inject.Inject()(
   def update(facilityId: Long) = Action { implicit request =>
     val formValues = formForFacility.bindFromRequest.get
     facilityDao.update(facilityId, formValues)
-    Redirect(routes.FacilityController.search)
+    Redirect(routes.FacilityController.search(1))
   }
 
   /**
@@ -159,7 +160,7 @@ class FacilityController @javax.inject.Inject()(
   // 削除
   def delete(facilityId: Long) = Action { implicit request =>
     facilityDao.delete(facilityId)
-    Redirect(routes.FacilityController.search)
+    Redirect(routes.FacilityController.search(1))
   }
 
   /**
@@ -186,14 +187,14 @@ class FacilityController @javax.inject.Inject()(
         for {
           locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
         } yield {
-          Redirect(routes.FacilityController.search)
+          Redirect(routes.FacilityController.search(1))
         }
       },
       facility   => {
         facilityDao.insert(facility)
       }
     )
-    Redirect(routes.FacilityController.search)
+    Redirect(routes.FacilityController.search(1))
   }
 
 }

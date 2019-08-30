@@ -12,7 +12,8 @@ POST  /app/new-user                     controllers.app.NewUserCommitController.
 # 一覧
 # GET  /facility/list                    controllers.facility.FacilityController.list
 # 検索
-GET  /facility/search                  controllers.facility.FacilityController.search
+GET  /facility/search                  controllers.facility.FacilityController.search(page:Int = 1)
+GET  /facility/search/:page            controllers.facility.FacilityController.search(page:Int)
 # 追加
 GET  /facility/insert                  controllers.facility.FacilityController.insertInfo
 POST /facility/insert                  controllers.facility.FacilityController.insert

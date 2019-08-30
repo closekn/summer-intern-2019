@@ -10,7 +10,7 @@
 @import controllers.facility.FacilityController
 
 @import persistence.facility.model.FacilitySearch
-@(vv: SiteViewValueFacilityList, form: Form[FacilitySearch])(implicit messages: play.api.i18n.Messages)
+@(vv: SiteViewValueFacilityList, form: Form[FacilitySearch], page: Int, pageSize: Int)(implicit messages: play.api.i18n.Messages)
 
 @** 施設検索一覧 *@
 @views.html.common.layout.InnerContent("site-app-new-user-form", "content") {
@@ -21,7 +21,7 @@
 
   @** --[ 検索フォーム ]---------------------------------------------------------- *@
   <div class="content__section form">
-    @helper.form(action = controllers.facility.routes.FacilityController.search) {
+    @helper.form(action = controllers.facility.routes.FacilityController.search(1)) {
 
       @** 都道府県 *@
       <div class="form__section pref inline">
@@ -45,7 +45,7 @@
 
   @** --[ 一覧 ]-------------------------------------------------------- *@
   <div class="content__section content">
-    @for(facility <- vv.facilities) {
+    @for(facility <- vv.facilities.toList.slice((page-1)*10,page*10)) {
       <a href= "@controllers.facility.routes.FacilityController.show(facility.id.get)">
         <article class="facility-list-item">
           <div class="item-panel__wrapper">
@@ -70,5 +70,17 @@
         </article>
       </a>
     }
+  </div>
+
+  @** --[ ページング ]-------------------------------------------------------- *@
+  <div class="pagination">
+    <ul>
+      @if(page > 1){
+        <li><a href="@controllers.facility.routes.FacilityController.search(page-1)">前ページ</a></li>
+      }
+      @if(page < (vv.facilities.size / pageSize) + 1) {
+        <li><a href="@controllers.facility.routes.FacilityController.search(page+1)">次ページ</a></li>
+      }
+    </ul>
   </div>
 }
