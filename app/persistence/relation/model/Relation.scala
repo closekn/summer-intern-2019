@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import persistence.facility.model.Facility
 import persistence.organization.model.Organization
 
-case class OrganizationFacilities (
+case class Relation (
   id:              Option[Relation.Id],
   organizationId:  Organization.Id,                // 組織id
   facilityId:      Facility.Id,                    // 施設id

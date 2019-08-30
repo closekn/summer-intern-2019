@@ -6,13 +6,13 @@ import persistence.facility.model.Facility
 import persistence.geo.model.Location
 import persistence.relation.model.Relation
 import persistence.organization.model.{Organization, OrganizationEdit}
-import persistence.organization.dao.OrganizationDao
+import persistence.organization.dao.OrganizationDAO
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
 import scala.concurrent.Future
 
-class RelationDao @javax.inject.Inject()(
+class RelationDAO @javax.inject.Inject()(
   val dbConfigProvider: DatabaseConfigProvider
 ) extends HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
@@ -32,9 +32,7 @@ class RelationDao @javax.inject.Inject()(
   def findAll =
     db.run{
       slick
-        .groupBy(_.organizationId).map{
-        case (s, results) => (s -> results.length)
-      }.result
+        .result
     }
 
   /**
@@ -98,7 +96,7 @@ class RelationDao @javax.inject.Inject()(
 
   // --[ テーブル定義 ] --------------------------------------------------------
 
-  class RelationTable(tag: Tag) extends Table[Relation](tag, "organization_facilities") {
+  class RelationTable(tag: Tag) extends Table[Relation](tag, "relation") {
 
     // Table's columns
     /* @1 */ def id             = column[Relation.Id]     ("id", O.PrimaryKey, O.AutoInc)
@@ -116,7 +114,7 @@ class RelationDao @javax.inject.Inject()(
       (Relation.apply _).tupled,
       /** The bidirectional mappings : Model => Tuple(table) */
       (v: TableElementType) => Relation.unapply(v).map(_.copy(
-        _5 = LocalDateTime.now
+        _4 = LocalDateTime.now
       ))
     )
   }
@@ -124,25 +122,27 @@ class RelationDao @javax.inject.Inject()(
   class OrganizationTable(tag: Tag) extends Table[Organization](tag, "organization") {
 
 
-    // Table's columns
-    /* @1 */ def id            = column[Facility.Id]    ("id", O.PrimaryKey, O.AutoInc)
-    /* @2 */ def locationId    = column[Location.Id]    ("location_id")
-    /* @3 */ def chineseName   = column[String]         ("chinese_name")
-    /* @4 */ def phoneticName  = column[String]         ("phonetic_name")
-    /* @5 */ def englishName   = column[String]         ("english_name")
-    /* @6 */ def updatedAt     = column[LocalDateTime]  ("updated_at")
-    /* @7 */ def createdAt     = column[LocalDateTime]  ("created_at")
+     // Table's columns
+    /* @1 */ def id            = column[Organization.Id] ("id", O.PrimaryKey, O.AutoInc)
+    /* @2 */ def locationId    = column[Location.Id]     ("location_id")
+    /* @3 */ def kanziName     = column[String]          ("kanziName")
+    /* @4 */ def furiganaName  = column[String]          ("furiganaName")
+    /* @5 */ def englishName   = column[String]          ("englishName")
+    /* @6 */ def address       = column[String]          ("address")
+    /* @7 */ def description   = column[String]          ("description")
+    /* @8 */ def updatedAt     = column[LocalDateTime]   ("updated_at")
+    /* @9 */ def createdAt     = column[LocalDateTime]   ("created_at")
 
     // The * projection of the table
     def * = (
-      id.?, locationId, chineseName, phoneticName, englishName,
+      id.?, locationId, kanziName, furiganaName, englishName, address, description,
       updatedAt, createdAt
     ) <> (
       /** The bidirectional mappings : Tuple(table) => Model */
       (Organization.apply _).tupled,
       /** The bidirectional mappings : Model => Tuple(table) */
       (v: TableElementType) => Organization.unapply(v).map(_.copy(
-        _6 = LocalDateTime.now
+        _8 = LocalDateTime.now
       ))
     )
   }

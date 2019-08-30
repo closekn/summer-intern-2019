@@ -18,4 +18,5 @@ case class SiteViewValueOrganization
   layout:      ViewValuePageLayout,
   location:    Seq[Location],
   organization: Option[Organization],
+  facilities: Seq[Facility]
 )

@@ -66,10 +66,24 @@
                       @organization.address
                     </p>
                   </div>
-                  <div class="description">
-                    <label class="inline">備考:</label>
+                </div>
+              </div>
+            </section>
+            <section class="facility-item__content">
+              <div>
+                <div class="item-panel__content">
+                  <div class="address">
+                    <label class="inline">施設数:</label>
                     <p class="inline">
-                      @organization.description
+                      @{
+                        var count = 0
+                        for(relation <- vv.relations){
+                          if(relation.organizationId == organization.id.get){
+                            count = count + 1
+                          }
+                        }
+                        count
+                      }
                     </p>
                   </div>
                 </div>

@@ -9,11 +9,15 @@ package controllers.organization
 
 import play.api.i18n.I18nSupport
 import play.api.mvc.{AbstractController, MessagesControllerComponents}
+import persistence.facility.model.Facility
+import persistence.facility.dao.FacilityDAO
 import persistence.organization.dao.OrganizationDAO
 import persistence.organization.model._
 import persistence.organization.model.Organization._
 import persistence.geo.model.Location
 import persistence.geo.dao.LocationDAO
+import persistence.relation.model.Relation
+import persistence.relation.dao.RelationDAO
 import model.site.organization._
 import model.component.util.ViewValuePageLayout
 
@@ -21,6 +25,8 @@ import model.component.util.ViewValuePageLayout
 //~~~~~~~~~~~~~~~~~~~~~
 class OrganizationController @javax.inject.Inject()(
   val organizationDao: OrganizationDAO,
+  val facilityDao: FacilityDAO,
+  val relationDao: RelationDAO,
   val daoLocation: LocationDAO,
   cc: MessagesControllerComponents
 ) extends AbstractController(cc) with I18nSupport {
@@ -33,11 +39,13 @@ class OrganizationController @javax.inject.Inject()(
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       organizationSeq <- organizationDao.findAll
+      relationSeq <- relationDao.findAll
     } yield {
       val vv = SiteViewValueOrganizationList(
         layout     = ViewValuePageLayout(id = request.uri),
         location   = locSeq,
-        organizations = organizationSeq
+        organizations = organizationSeq,
+        relations = relationSeq
       )
       Ok(views.html.site.organization.list.Main(vv, formForOrganizationSearch))
     }
@@ -52,11 +60,13 @@ class OrganizationController @javax.inject.Inject()(
        for {
           locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
           organizationSeq <- organizationDao.findAll
+          relationSeq <- relationDao.findAll
         } yield {
           val vv = SiteViewValueOrganizationList(
             layout     = ViewValuePageLayout(id = request.uri),
             location   = locSeq,
-            organizations = organizationSeq
+            organizations = organizationSeq,
+            relations = relationSeq
           )
           BadRequest(views.html.site.organization.list.Main(vv, errors))
         }
@@ -72,11 +82,13 @@ class OrganizationController @javax.inject.Inject()(
               } yield organizationSeq
             case None     => organizationDao.findAll
           }
+          relationSeq <- relationDao.findAll
         } yield {
           val vv = SiteViewValueOrganizationList(
             layout     = ViewValuePageLayout(id = request.uri),
             location   = locSeq,
-            organizations = organizationSeq
+            organizations = organizationSeq,
+            relations = relationSeq
           )
           Ok(views.html.site.organization.list.Main(vv, formForOrganizationSearch.fill(form)))
         }
@@ -91,11 +103,13 @@ class OrganizationController @javax.inject.Inject()(
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       organization    <- organizationDao.get(organizationId)
+      facilities <- relationDao.getRelatedAll(organizationId)
     } yield {
       val vv = SiteViewValueOrganization(
         layout     = ViewValuePageLayout(id = request.uri),
         location   = locSeq,
-        organization   = organization
+        organization   = organization,
+        facilities = facilities
       )
 
       Ok(views.html.site.organization.show.Main(vv, organizationId))
@@ -110,11 +124,13 @@ class OrganizationController @javax.inject.Inject()(
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       organization    <- organizationDao.get(organizationId)
+      facilities <- relationDao.getRelatedAll(organizationId)
     } yield {
       val vv = SiteViewValueOrganization(
         layout     = ViewValuePageLayout(id = request.uri),
         location   = locSeq,
-        organization   = organization
+        organization   = organization,
+        facilities = facilities
       )
 
       Ok(views.html.site.organization.edit.Main(vv, organizationId ,
@@ -146,11 +162,13 @@ class OrganizationController @javax.inject.Inject()(
     for {
       locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       organization    <- organizationDao.get(organizationId)
+      facilities <- relationDao.getRelatedAll(organizationId)
     } yield {
       val vv = SiteViewValueOrganization(
         layout     = ViewValuePageLayout(id = request.uri),
         location   = locSeq,
-        organization   = organization
+        organization   = organization,
+        facilities = facilities,
       )
 
       Ok(views.html.site.organization.delete.Main(vv, organizationId))
@@ -170,11 +188,13 @@ class OrganizationController @javax.inject.Inject()(
     for {
       locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
       organization <- scala.concurrent.Future(None)
+      facilities <- facilityDao.findAll
     } yield {
       val vv = SiteViewValueOrganization(
         layout = ViewValuePageLayout(id = request.uri),
         location = locSeq,
         organization = organization,
+        facilities = facilities,
       )
       Ok(views.html.site.organization.insert.Main(vv, formForOrganization))
     }
